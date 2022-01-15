@@ -4,7 +4,7 @@ import hxd.Math;
 import component.Velocity;
 import component.Transform;
 
-class RandomMove implements ISystem {
+class RandomMove implements IPerEntitySystem {
 	public var forComponents:Array<String> = [Transform.type, Velocity.type];
 
 	var directionTick = 0;

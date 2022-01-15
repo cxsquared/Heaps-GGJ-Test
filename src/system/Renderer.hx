@@ -3,7 +3,7 @@ package system;
 import component.Transform;
 import component.Renderable;
 
-class Renderer implements ISystem {
+class Renderer implements IPerEntitySystem {
 	public var forComponents:Array<String> = [Renderable.type, Transform.type];
 
 	public function new() {}

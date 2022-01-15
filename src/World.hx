@@ -1,3 +1,5 @@
+import system.IPerEntitySystem;
+import system.IAllEntitySystem.IAllEntitySystems;
 import system.ISystem;
 import component.IComponent;
 
@@ -48,15 +50,20 @@ class World {
 				entitiesToProcess = getEntitiesWithComponent(entitiesToProcess, type);
 			}
 
+			if (Std.isOfType(system, IAllEntitySystems)) {
+				Std.downcast(system, IAllEntitySystems).updateAll(entitiesToProcess, dt);
+				continue;
+			}
+
 			for (entity in entitiesToProcess) {
-				system.update(entity, dt);
+				Std.downcast(system, IPerEntitySystem).update(entity, dt);
 			}
 		}
 	}
 
 	function getEntitiesWithComponent(entitiesToFilter:Array<Entity>, componentType:String) {
 		var entitiesWithComponent = new Array<Entity>();
-		for (entity in entities) {
+		for (entity in entitiesToFilter) {
 			if (components[componentType][entity.id] != null) {
 				entitiesWithComponent.push(entity);
 			}
