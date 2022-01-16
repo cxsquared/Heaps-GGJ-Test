@@ -1,49 +1,33 @@
-import hxd.Timer;
-import hxd.Math;
-import h2d.Text;
-import system.*;
-import component.*;
+import hxd.Key;
+import scenes.GameScene;
+import scenes.CollisionTest;
 
 class Game extends hxd.App {
-	var world:World;
-	var tf:Text;
+	var scene:GameScene;
 
 	public function new() {
 		super();
 	}
 
 	override function init() {
-		world = new World();
+		setGameScene(new CollisionTest(s2d));
+	}
 
-		for (i in 0...200) {
-			var width = Math.floor(15 + Math.random(15));
-			var height = Math.floor(15 + Math.random(15));
-			var color = Math.round(0xFFFFFF * Math.random());
-
-			var entity = world.newEntity()
-				.add(new Transform(Math.random(s2d.width), Math.random(s2d.height), width, height))
-				.add(new Velocity())
-				.add(new Renderable(h2d.Tile.fromColor(color, width, height), s2d));
-
-			if (i % 2 == 0)
-				entity.add(new Collidable(15, Math.colorLerp(color, 0xFF0000, .5)));
+	public function setGameScene(gs:GameScene) {
+		if (scene != null) {
+			s2d.removeChild(scene); // This might not actually clean anything up aka memory leak
 		}
 
-		world.addSystem(new RandomMove());
-		world.addSystem(new Collision());
-		world.addSystem(new FlashCollision());
-		world.addSystem(new Renderer());
-		#if debug
-		world.addSystem(new CollisionDebug(s2d));
-		#end
+		scene = gs;
 
-		tf = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
-		tf.text = "Hello, World!";
+		scene.init();
 	}
 
 	override function update(dt:Float) {
-		tf.text = "FPS: " + Timer.fps();
+		if (Key.isPressed(Key.R))
+			setGameScene(new CollisionTest(s2d));
 
-		world.update(dt);
+		if (scene != null)
+			scene.update(dt);
 	}
 }
