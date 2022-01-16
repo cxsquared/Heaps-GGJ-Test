@@ -12,6 +12,6 @@ class Renderer implements IPerEntitySystem {
 		var renderable:Renderable = cast entity.get(Renderable.type);
 		var transform:Transform = cast entity.get(Transform.type);
 
-		renderable.bitmap.setPosition(transform.xx, transform.yy);
+		renderable.bitmap.setPosition(transform.x, transform.y);
 	}
 }

@@ -14,8 +14,8 @@ class Collision implements IAllEntitySystems {
 		for (e in entities) {
 			var ec:Collidable = cast e.get(Collidable.type);
 			var et:Transform = cast e.get(Transform.type);
-			ec.collider.x = et.xx;
-			ec.collider.y = et.yy;
+			ec.collider.x = et.x + et.width / 2;
+			ec.collider.y = et.y + et.height / 2;
 			ec.colliding = false;
 		}
 

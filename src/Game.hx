@@ -14,22 +14,28 @@ class Game extends hxd.App {
 
 	override function init() {
 		world = new World();
-		world.addSystem(new Renderer());
+
+		for (i in 0...200) {
+			var width = Math.floor(15 + Math.random(15));
+			var height = Math.floor(15 + Math.random(15));
+			var color = Math.round(0xFFFFFF * Math.random());
+
+			var entity = world.newEntity()
+				.add(new Transform(Math.random(s2d.width), Math.random(s2d.height), width, height))
+				.add(new Velocity())
+				.add(new Renderable(h2d.Tile.fromColor(color, width, height), s2d));
+
+			if (i % 2 == 0)
+				entity.add(new Collidable(15, Math.colorLerp(color, 0xFF0000, .5)));
+		}
+
 		world.addSystem(new RandomMove());
 		world.addSystem(new Collision());
 		world.addSystem(new FlashCollision());
+		world.addSystem(new Renderer());
+		#if debug
 		world.addSystem(new CollisionDebug(s2d));
-
-		for (i in 0...200) {
-			var entity = world.newEntity()
-				.add(new Transform(Math.random(s2d.width), Math.random(s2d.height)))
-				.add(new Velocity())
-				.add(new Renderable(h2d.Tile.fromColor(Math.round(0xFFFFFF * Math.random()), Math.floor(15 + Math.random(15)),
-					Math.floor(15 + Math.random(15))), s2d));
-
-			if (entity.id % 2 == 0)
-				entity.add(new Collidable(15));
-		}
+		#end
 
 		tf = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
 		tf.text = "Hello, World!";

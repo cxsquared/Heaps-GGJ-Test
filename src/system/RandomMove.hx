@@ -20,7 +20,7 @@ class RandomMove implements IPerEntitySystem {
 			velocity.dy = Math.srand(50);
 		}
 
-		transform.xx += velocity.dx * dt;
-		transform.yy += velocity.dy * dt;
+		transform.x += velocity.dx * dt;
+		transform.y += velocity.dy * dt;
 	}
 }
