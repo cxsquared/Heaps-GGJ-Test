@@ -55,8 +55,10 @@ class World {
 				continue;
 			}
 
+			var perEntitySystem = Std.downcast(system, IPerEntitySystem);
+
 			for (entity in entitiesToProcess) {
-				Std.downcast(system, IPerEntitySystem).update(entity, dt);
+				perEntitySystem.update(entity, dt);
 			}
 		}
 	}

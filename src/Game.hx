@@ -1,10 +1,7 @@
 import hxd.Timer;
 import hxd.Math;
 import h2d.Text;
-import system.Renderer;
-import system.RandomMove;
-import system.Collision;
-import system.FlashCollision;
+import system.*;
 import component.*;
 
 class Game extends hxd.App {
@@ -21,6 +18,7 @@ class Game extends hxd.App {
 		world.addSystem(new RandomMove());
 		world.addSystem(new Collision());
 		world.addSystem(new FlashCollision());
+		world.addSystem(new CollisionDebug(s2d));
 
 		for (i in 0...200) {
 			var entity = world.newEntity()
@@ -30,7 +28,7 @@ class Game extends hxd.App {
 					Math.floor(15 + Math.random(15))), s2d));
 
 			if (entity.id % 2 == 0)
-				entity.add(new Collidable());
+				entity.add(new Collidable(15));
 		}
 
 		tf = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
