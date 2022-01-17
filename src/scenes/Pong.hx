@@ -3,9 +3,7 @@ package scenes;
 import h2d.Tile;
 import component.Collidable.CollisionShape;
 import h2d.Scene;
-import h2d.Scene;
 import hxd.Timer;
-import hxd.Math;
 import h2d.Text;
 import system.*;
 import component.*;
@@ -27,7 +25,10 @@ class Pong extends GameScene {
 
 		world = new World();
 
-		// Paddle Left
+		world.newEntity()
+			.add(new Transform(s2d.width / 2 - 2.5, 0, 5, s2d.height))
+			.add(new Renderable(Tile.fromColor(0xFFFFFF, 5, s2d.height), this)); // Paddle Left
+
 		world.newEntity()
 			.add(new Paddle(1, 0, Std.int(s2d.height - paddleHeight)))
 			.add(new Transform(15, s2d.height / 2 - paddleHeight / 2, paddleWidth, paddleHeight))
