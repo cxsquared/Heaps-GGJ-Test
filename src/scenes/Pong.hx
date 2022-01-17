@@ -13,6 +13,7 @@ import component.*;
 class Pong extends GameScene {
 	var world:World;
 	var tf:Text;
+	var score:Entity;
 
 	public function new(scene:Scene) {
 		super(scene);
@@ -50,9 +51,12 @@ class Pong extends GameScene {
 			.add(new Collidable(CollisionShape.CIRCLE, ballRadius))
 			.add(new Renderable(Tile.fromColor(0xFFFFFF, ballRadius * 2, ballRadius * 2), this));
 
-		world.addSystem(new BallController());
+		score = world.newEntity().add(new Score());
+
+		world.addSystem(new BallController(onScore));
 		world.addSystem(new PaddleController());
 		world.addSystem(new Collision());
+		world.addSystem(new ScoreDisplay(this));
 		world.addSystem(new Renderer());
 		#if debug
 		world.addSystem(new CollisionDebug(this));
@@ -60,6 +64,16 @@ class Pong extends GameScene {
 
 		tf = new h2d.Text(hxd.res.DefaultFont.get(), this);
 		tf.text = "Hello, World!";
+	}
+
+	function onScore(x:Float) {
+		var score:Score = cast score.get(Score.type);
+
+		if (x < this.getScene().width / 2) {
+			score.player1++;
+		} else {
+			score.player2++;
+		}
 	}
 
 	public override function update(dt:Float) {

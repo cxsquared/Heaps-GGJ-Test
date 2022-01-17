@@ -7,8 +7,14 @@ import component.Transform;
 import component.Velocity;
 import component.Ball;
 
+typedef BallScoreCallback = (x:Float) -> Void;
+
 class BallController implements IPerEntitySystem {
-	public function new() {}
+	var onScore:BallScoreCallback;
+
+	public function new(ballScoreCallback:BallScoreCallback) {
+		onScore = ballScoreCallback;
+	}
 
 	public var forComponents:Array<String> = [Ball.type, Velocity.type, Transform.type, Collidable.type];
 
@@ -50,6 +56,8 @@ class BallController implements IPerEntitySystem {
 
 		// Hiting the left/right resets
 		if (t.x < b.minX || t.x > b.maxX) {
+			onScore(t.x);
+
 			b.speed = b.startingAcceleration;
 			v.dx = 0;
 			v.dy = 0;

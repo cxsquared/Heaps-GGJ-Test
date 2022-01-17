@@ -1,7 +1,5 @@
-import hxd.poly2tri.Point;
 import hxd.Key;
 import scenes.GameScene;
-import scenes.CollisionTest;
 import scenes.Pong;
 
 class Game extends hxd.App {
