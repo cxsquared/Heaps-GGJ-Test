@@ -65,6 +65,9 @@ class World {
 
 	function getEntitiesWithComponent(entitiesToFilter:Array<Entity>, componentType:String) {
 		var entitiesWithComponent = new Array<Entity>();
+		if (!components.exists(componentType))
+			return entitiesWithComponent;
+
 		for (entity in entitiesToFilter) {
 			if (components[componentType][entity.id] != null) {
 				entitiesWithComponent.push(entity);

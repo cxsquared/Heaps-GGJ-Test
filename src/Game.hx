@@ -1,6 +1,8 @@
+import hxd.poly2tri.Point;
 import hxd.Key;
 import scenes.GameScene;
 import scenes.CollisionTest;
+import scenes.Pong;
 
 class Game extends hxd.App {
 	var scene:GameScene;
@@ -10,7 +12,7 @@ class Game extends hxd.App {
 	}
 
 	override function init() {
-		setGameScene(new CollisionTest(s2d));
+		setGameScene(new Pong(s2d));
 	}
 
 	public function setGameScene(gs:GameScene) {
@@ -25,7 +27,7 @@ class Game extends hxd.App {
 
 	override function update(dt:Float) {
 		if (Key.isPressed(Key.R))
-			setGameScene(new CollisionTest(s2d));
+			setGameScene(new Pong(s2d));
 
 		if (scene != null)
 			scene.update(dt);

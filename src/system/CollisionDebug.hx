@@ -33,9 +33,16 @@ class CollisionDebug implements IAllEntitySystems {
 			}
 
 			if (collidable.debug) {
-				var circle = collidable.collider;
 				graphics.setColor(collidable.debugColor, .75);
-				graphics.drawCircle(circle.x, circle.y, circle.ray);
+				switch (collidable.shape) {
+					case CIRCLE:
+						var circle = collidable.circle;
+						graphics.drawCircle(circle.x, circle.y, circle.ray);
+
+					case BOUNDS:
+						var bounds = collidable.bounds;
+						graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+				}
 			}
 		}
 

@@ -1,6 +1,5 @@
 package scenes;
 
-import h2d.Object;
 import h2d.Scene;
 import hxd.Timer;
 import hxd.Math;

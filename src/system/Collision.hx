@@ -14,9 +14,15 @@ class Collision implements IAllEntitySystems {
 		for (e in entities) {
 			var ec:Collidable = cast e.get(Collidable.type);
 			var et:Transform = cast e.get(Transform.type);
-			ec.collider.x = et.x + et.width / 2;
-			ec.collider.y = et.y + et.height / 2;
+			switch (ec.shape) {
+				case CIRCLE:
+					ec.circle.x = et.x + et.width / 2;
+					ec.circle.y = et.y + et.height / 2;
+				case BOUNDS:
+					ec.bounds.set(et.x, et.y, et.width, et.height);
+			}
 			ec.colliding = false;
+			ec.event = null;
 		}
 
 		// check for collisions
@@ -29,11 +35,30 @@ class Collision implements IAllEntitySystems {
 
 				var bc:Collidable = cast b.get(Collidable.type);
 
-				if (ac.collider.collideCircle(bc.collider)) {
+				if (overlaps(ac, bc)) {
+					var event = new CollisionEvent(a, b);
 					ac.colliding = true;
+					ac.event = event;
 					break;
 				}
 			}
 		}
+	}
+
+	function overlaps(ac:Collidable, bc:Collidable):Bool {
+		switch (ac.shape) {
+			case CIRCLE:
+				if (bc.shape == CIRCLE)
+					return ac.circle.collideCircle(bc.circle);
+
+				return ac.circle.collideBounds(bc.bounds);
+			case BOUNDS:
+				if (bc.shape == CIRCLE)
+					return bc.circle.collideBounds(ac.bounds);
+
+				return ac.bounds.intersects(bc.bounds);
+		}
+
+		return false;
 	}
 }
