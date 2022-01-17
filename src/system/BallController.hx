@@ -30,13 +30,17 @@ class BallController implements IPerEntitySystem {
 
 		// Hiting a paddle
 		if (c.colliding) {
-			b.speed += b.hitSpeedUp;
-			v.dx = -v.dx;
-			var p = new Point(v.dx, v.dy);
-			p = p.normalized();
-			p = p.multiply(b.speed);
-			v.dx = p.x;
-			v.dy = p.y;
+			var targetC:Collidable = cast c.event.target.get(Collidable.type);
+			var targetBounds = targetC.bounds;
+
+			if (t.y - c.circle.ray >= targetBounds.y && t.y + c.circle.ray <= targetBounds.y + targetBounds.height) {
+				v.dx = -v.dx;
+				var p = new Point(v.dx, v.dy);
+				p = p.normalized();
+				p = p.multiply(b.speed);
+				v.dx = p.x;
+				v.dy = p.y;
+			}
 		}
 
 		// Hiting the top/bottom
@@ -55,5 +59,13 @@ class BallController implements IPerEntitySystem {
 
 		t.x += v.dx * dt;
 		t.y += v.dy * dt;
+	}
+
+	function isAbove(a:Transform, b:Transform) {
+		return a.y - a.height < b.y;
+	}
+
+	function isBelow(a:Transform, b:Transform) {
+		return a.y > b.y + b.height;
 	}
 }
