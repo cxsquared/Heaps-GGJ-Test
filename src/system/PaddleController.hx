@@ -11,9 +11,9 @@ class PaddleController implements IPerEntitySystem {
 	public function new() {}
 
 	public function update(entity:Entity, dt:Float) {
-		var p:Paddle = cast entity.get(Paddle.type);
-		var t:Transform = cast entity.get(Transform.type);
-		var v:Velocity = cast entity.get(Velocity.type);
+		var p:Paddle = cast(entity.get(Paddle.type), Paddle);
+		var t:Transform = cast(entity.get(Transform.type), Transform);
+		var v:Velocity = cast(entity.get(Velocity.type), Velocity);
 
 		if (p.player == 1) {
 			if (Key.isDown(Key.W))

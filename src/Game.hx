@@ -10,6 +10,7 @@ class Game extends hxd.App {
 	}
 
 	override function init() {
+		hxd.Res.initEmbed();
 		setGameScene(new Pong(s2d));
 	}
 

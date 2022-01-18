@@ -1,5 +1,7 @@
 package component;
 
+import h2d.Console;
+
 class Transform implements IComponent {
 	public static final type = "Transform";
 
@@ -17,5 +19,12 @@ class Transform implements IComponent {
 
 	public function getType():String {
 		return type;
+	}
+
+	public function log(console:Console, ?color:Null<Int>):Void {
+		console.log('x: $x', color);
+		console.log('y: $y', color);
+		console.log('width: $width', color);
+		console.log('height: $height', color);
 	}
 }

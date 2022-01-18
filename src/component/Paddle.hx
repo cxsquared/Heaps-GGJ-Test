@@ -1,5 +1,7 @@
 package component;
 
+import h2d.Console;
+
 class Paddle implements IComponent {
 	public static final type = "Paddle";
 
@@ -18,5 +20,10 @@ class Paddle implements IComponent {
 
 	public function getType():String {
 		return type;
+	}
+
+	public function log(console:Console, ?color:Null<Int>):Void {
+		console.log('Player: $player', color);
+		console.log('Speed: $speed', color);
 	}
 }

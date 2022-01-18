@@ -1,5 +1,6 @@
 package component;
 
+import h2d.Console;
 import h2d.col.Bounds;
 import h2d.col.Circle;
 
@@ -29,6 +30,15 @@ class Collidable implements IComponent {
 
 	public function getType():String {
 		return type;
+	}
+
+	public function log(console:Console, ?color:Null<Int>):Void {
+		console.log('Colliding: $colliding', color);
+		console.log('shape: $shape', color);
+		if (event != null) {
+			console.log('Owner: ${event.owner.id}', color);
+			console.log('Target: ${event.target.id}', color);
+		}
 	}
 }
 

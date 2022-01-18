@@ -1,5 +1,8 @@
 package scenes;
 
+import hxd.res.DefaultFont;
+import h2d.Console;
+import hxd.Key;
 import h2d.Tile;
 import component.Collidable.CollisionShape;
 import h2d.Scene;
@@ -12,6 +15,7 @@ class Pong extends GameScene {
 	var world:World;
 	var tf:Text;
 	var score:Entity;
+	var console:Console;
 
 	public function new(scene:Scene) {
 		super(scene);
@@ -45,7 +49,7 @@ class Pong extends GameScene {
 			.add(new Renderable(Tile.fromColor(0xFFFFFF, Std.int(paddleWidth), Std.int(paddleHeight)), this));
 
 		// Paddle Ball
-		world.newEntity()
+		var ball = world.newEntity()
 			.add(new Ball(0, s2d.height - ballRadius * 2, -ballRadius, s2d.width - ballRadius))
 			.add(new Transform(s2d.width / 2 - ballRadius, s2d.height / 2 - ballRadius, ballRadius * 2, ballRadius * 2))
 			.add(new Velocity())
@@ -54,7 +58,7 @@ class Pong extends GameScene {
 
 		score = world.newEntity().add(new Score());
 
-		world.addSystem(new BallController(onScore));
+		world.addSystem(new BallController(onScore, onBallBounce));
 		world.addSystem(new PaddleController());
 		world.addSystem(new Collision());
 		world.addSystem(new ScoreDisplay(this));
@@ -65,6 +69,15 @@ class Pong extends GameScene {
 
 		tf = new h2d.Text(hxd.res.DefaultFont.get(), this);
 		tf.text = "Hello, World!";
+
+		console = new Console(DefaultFont.get(), this);
+		console.addCommand("debug", "", [], function() {
+			world.debugLog(console);
+		});
+	}
+
+	function onBallBounce() {
+		hxd.Res.text01.play();
 	}
 
 	function onScore(x:Float) {

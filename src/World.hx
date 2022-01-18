@@ -1,3 +1,5 @@
+import h2d.Console;
+import haxe.Json;
 import system.IPerEntitySystem;
 import system.IAllEntitySystem.IAllEntitySystems;
 import system.ISystem;
@@ -59,6 +61,22 @@ class World {
 
 			for (entity in entitiesToProcess) {
 				perEntitySystem.update(entity, dt);
+			}
+		}
+	}
+
+	public function debugLog(console:Console) {
+		console.log("World");
+		console.log("Entities:");
+		for (entity in entities) {
+			var color = Std.int(Math.random() * 0xFFFFFF);
+			console.log('id: ${entity.id}', color);
+			console.log("components: ", color);
+			for (type in components.keys()) {
+				if (components[type].exists(entity.id)) {
+					console.log('type: $type', color);
+					components[type][entity.id].log(console, color);
+				}
 			}
 		}
 	}
